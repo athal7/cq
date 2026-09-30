@@ -88,14 +88,17 @@ func TestAgentSkillsUninstallRemovesManagedReflectionOnly(t *testing.T) {
 
 func TestOtherHostReinstallPreservesReflectionSkill(t *testing.T) {
 	ctx := opencodeCtx(t)
-	_, err := agentSkillsHost{}.Install(ctx)
+	agentCtx := ctx
+	agentCtx.Target = ctx.SkillsDir
+	_, err := agentSkillsHost{}.Install(agentCtx)
 	require.NoError(t, err)
 	_, err = opencodeHost{}.Install(ctx)
 	require.NoError(t, err)
 	_, err = opencodeHost{}.Install(ctx)
 	require.NoError(t, err)
-	require.FileExists(t, filepath.Join(ctx.Target, "cq-reflect", "SKILL.md"))
+	require.FileExists(t, filepath.Join(ctx.SkillsDir, "cq-reflect", "SKILL.md"))
 }
+
 func TestAgentSkillsTargetRegistered(t *testing.T) {
 	hosts := SelectHosts(Targets{TargetAgentSkills})
 	require.Len(t, hosts, 1)
