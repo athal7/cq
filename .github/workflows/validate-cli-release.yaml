@@ -109,7 +109,7 @@ jobs:
 
           echo "Scoop autoupdate contract validated successfully"
 
-  validate-brew-postflight:
+  validate-brew-cask:
     runs-on: macos-latest
     steps:
       - name: Checkout
